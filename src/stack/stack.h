@@ -1,3 +1,6 @@
+#ifndef stack_h
+#define stack_h
+
 template<typename T>
 class Stack{
 
@@ -11,3 +14,5 @@ public:
     void push(T val);
     T pop();
 };
+
+#endif

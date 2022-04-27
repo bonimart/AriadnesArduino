@@ -22,10 +22,10 @@ Stack<T>::~Stack(){
 
 template<typename T>
 void Stack<T>::push(T val){
-    Elem * next = new Elem
+    Elem * next = new Elem;
     next -> m_val = val; 
-    next -> m_parent = head;
-    head = next;
+    next -> m_parent = m_head;
+    m_head = next;
 }
 
 template<typename T>
@@ -35,5 +35,6 @@ T Stack<T>::pop(){
         Elem * tmp = m_head -> m_parent;
         delete m_head;
         m_head = tmp;
+        return val;
     }
 }
