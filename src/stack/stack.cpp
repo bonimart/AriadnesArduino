@@ -1,18 +1,10 @@
 #include "stack.h"
 
-template<typename T>
-struct Stack<T>::Elem{
-    T m_val;
-    Elem * m_parent;
-};
-
-template<typename T>
-Stack<T>::Stack(){
+Stack::Stack(){
     m_head = nullptr;
 }
 
-template<typename T>
-Stack<T>::~Stack(){
+Stack::~Stack(){
     while(m_head){
         Elem * tmp = m_head -> m_parent;
         delete m_head;
@@ -20,18 +12,16 @@ Stack<T>::~Stack(){
     }
 }
 
-template<typename T>
-void Stack<T>::push(T val){
+void Stack::push(float val){
     Elem * next = new Elem;
     next -> m_val = val; 
     next -> m_parent = m_head;
     m_head = next;
 }
 
-template<typename T>
-T Stack<T>::pop(){
+float Stack::pop(){
     if(m_head){
-        T val = m_head -> m_val;
+        float val = m_head -> m_val;
         Elem * tmp = m_head -> m_parent;
         delete m_head;
         m_head = tmp;
