@@ -103,6 +103,17 @@ void loop() {
     lcd.print(mpu.getAngleZ(), 0);
     lcd.print(" DEG");
 
+void loop() {
+  //keep sensor updated for higher precision
+  mpu.update();
+  if(millis()-lcd_timer > LCD_WAIT){
+    lcd_timer = millis();
+    handleLcd();
   }
-  */
+  if(millis()-btn_timer > BTN_WAIT){
+    btn_timer = millis();
+    handleBtn();
+    end = digitalRead(END);
+    step = digitalRead(STEP);
+  }
 }
