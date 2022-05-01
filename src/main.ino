@@ -58,6 +58,17 @@ bool risingEdge(int pin, bool val){
 void loop() {
   switch (STATE)
   {
+float trimAngle(float angle){
+  //modulus for small floats -> output in range <0; 360)
+  while(angle < -180){
+    angle += 360;
+  }
+  while(angle >= 180){
+    angle -= 360;
+  }
+  return angle;
+}
+
     case MENU:
       lcd.clear();
       lcd.print("Press button!");
