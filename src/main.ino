@@ -4,9 +4,19 @@
 #include "stack/stack.h"
 #include "stack/stack.cpp"
 
-#define WAIT_TIME 500
+#define LCD_WAIT 500
+#define BTN_WAIT 20
+#define ANGLE_ERROR 5
 #define END 6
 #define STEP 7
+//#define DEBUG
+
+unsigned long lcd_timer = 0;
+unsigned long btn_timer = 0;
+bool end;
+bool step;
+float angleDiff;
+Stack angles;
 
 //mpu set-up
 MPU6050 mpu(Wire);
@@ -40,11 +50,6 @@ void setup() {
   
 
 }
-
-unsigned long timer = 0;
-bool end;
-bool st;
-Stack angles;
 
 bool risingEdge(int pin, bool val){
   return !digitalRead(pin) && val == true;
@@ -86,22 +91,9 @@ void loop() {
       else if(risingEdge(STEP, st)){
         //make a step
       }
-      end = digitalRead(END);
-      st = digitalRead(STEP);
       break;
   }
-  delay(200);
-  //update sensor
-  /*
-  mpu.update();
-
-  //write info on LCD
-  if(millis() - timer > WAIT_TIME){
-    timer = millis();
-    lcd.clear();
-    lcd.print("Angle: ");
-    lcd.print(mpu.getAngleZ(), 0);
-    lcd.print(" DEG");
+}
 
 void loop() {
   //keep sensor updated for higher precision
