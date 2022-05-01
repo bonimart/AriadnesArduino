@@ -120,34 +120,33 @@ void handleLcd(){
   }
 }
 
+void handleBtn(){
+  switch(STATE){
+    case MENU:
+      if(risingEdge(STEP, step)){
         STATE = READ;
       }
-      end = digitalRead(END);
-      st = digitalRead(STEP);
       break;
-      
-    
     case READ:
-      lcd.clear();
-      lcd.print("Reading");
       if(risingEdge(END, end)){
         STATE = NAVIGATE;
       }
-      else if(risingEdge(STEP, st)){
-        //make a step
+      else if(risingEdge(STEP, step)){
+        //make a step, angles can be out of range <0;360), therefore they need to be trimmed
+        makeStep(trimAngle(mpu.getAngleZ()));
       }
-      end = digitalRead(END);
-      st = digitalRead(STEP);
       break;
-      
     case NAVIGATE:
-      lcd.clear();
-      lcd.print("Navigating");
-      if(risingEdge(END, end)){
+      if(risingEdge(END, end) || angles.size == 0){
+        angles.clear();
         STATE = MENU;
       }
-      else if(risingEdge(STEP, st)){
+      else if(risingEdge(STEP, step)){
         //make a step
+        angleDiff = trimAngle(angles.top() - mpu.getAngleZ() + 180);
+        if(angleDiff > -ANGLE_ERROR && angleDiff < ANGLE_ERROR){
+          makeStep(trimAngle(mpu.getAngleZ()));
+        }
       }
       break;
   }
