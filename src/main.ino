@@ -55,9 +55,6 @@ bool risingEdge(int pin, bool val){
   return !digitalRead(pin) && val == true;
 }
 
-void loop() {
-  switch (STATE)
-  {
 float trimAngle(float angle){
   //modulus for small floats -> output in range <0; 360)
   while(angle < -180){
@@ -67,6 +64,23 @@ float trimAngle(float angle){
     angle -= 360;
   }
   return angle;
+}
+
+void makeStep(float angle){
+  if(!angles.size){
+    angles.push(angle);
+    return;
+  }
+  //check if we are moving back, if so, pop from stack
+  float prev = angles.top();
+  angleDiff = trimAngle(angles.top() - mpu.getAngleZ() + 180);
+  if(angleDiff < ANGLE_ERROR
+    && angleDiff > -ANGLE_ERROR){
+      angles.pop();
+      return;
+  }
+  angles.push(angle);
+
 }
 
     case MENU:
