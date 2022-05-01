@@ -83,10 +83,43 @@ void makeStep(float angle){
 
 }
 
+void handleLcd(){
+  lcd.clear();
+  switch(STATE){
     case MENU:
-      lcd.clear();
-      lcd.print("Press button!");
-      if(risingEdge(STEP, st)){
+      lcd.print("Press left");
+      lcd.setCursor(0, 1);
+      lcd.print("button to start!");
+      break;
+    case READ:
+      lcd.print("Reading");
+      lcd.setCursor(0, 1);
+      lcd.print("Step count: ");
+      lcd.print(angles.size);
+      break;
+    case NAVIGATE:
+      angleDiff = trimAngle(angles.top() - mpu.getAngleZ() + 180);
+#ifdef DEBUG
+      lcd.print(angleDiff, 0);
+#endif
+#ifndef DEBUG
+      if(angleDiff > 0 && angleDiff > ANGLE_ERROR){
+        lcd.print("Turn left");
+      }
+      else if(angleDiff < 0 && angleDiff < -ANGLE_ERROR){
+        lcd.print("Turn right");
+      }
+      else{
+        lcd.print("Make a step!");
+      }
+#endif
+      lcd.setCursor(0, 1);
+      lcd.print("Steps left: ");
+      lcd.print(angles.size);
+      break;
+  }
+}
+
         STATE = READ;
       }
       end = digitalRead(END);
