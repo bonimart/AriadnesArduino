@@ -13,8 +13,11 @@ private:
 public:
     Stack();
     ~Stack();
+    void clear();
     void push(float val);
     float pop();
+    float top();
+    size_t size = 0;
 };
 
 #endif
