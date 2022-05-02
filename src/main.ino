@@ -50,12 +50,24 @@ void setup() {
   
 
 }
-
+/**
+ * @brief check for rising edge on given pin
+ * 
+ * @param pin input pin to check
+ * @param val previous value of the pin
+ * @return true if rising edge is detected, false otherwise
+ */
 bool risingEdge(int pin, bool val){
   return !digitalRead(pin) && val == true;
 }
-
+/**
+ * @brief trims angle to range (-180, 180>
+ * 
+ * @param angle 
+ * @return float trimmed angle
+ */
 float trimAngle(float angle){
+  
   //modulus for small floats -> output in range <0; 360)
   while(angle < -180){
     angle += 360;
@@ -65,7 +77,11 @@ float trimAngle(float angle){
   }
   return angle;
 }
-
+/**
+ * @brief makes a step one angle forward, if moving backward, function pops last step from stack
+ * 
+ * @param angle angle in which the user is moving
+ */
 void makeStep(float angle){
   if(!angles.size){
     angles.push(angle);
@@ -82,7 +98,10 @@ void makeStep(float angle){
   angles.push(angle);
 
 }
-
+/**
+ * @brief handles writing on lcd based on current state
+ * 
+ */
 void handleLcd(){
   lcd.clear();
   switch(STATE){
@@ -91,35 +110,39 @@ void handleLcd(){
       lcd.setCursor(0, 1);
       lcd.print("button to start!");
       break;
+
     case READ:
       lcd.print("Reading");
       lcd.setCursor(0, 1);
       lcd.print("Step count: ");
       lcd.print(angles.size);
       break;
+
     case NAVIGATE:
       angleDiff = trimAngle(angles.top() - mpu.getAngleZ() + 180);
-#ifdef DEBUG
-      lcd.print(angleDiff, 0);
-#endif
-#ifndef DEBUG
+
       if(angleDiff > 0 && angleDiff > ANGLE_ERROR){
-        lcd.print("Turn left");
+        lcd.print("Turn left ");
+        lcd.print(abs(angleDiff), 0);
       }
       else if(angleDiff < 0 && angleDiff < -ANGLE_ERROR){
-        lcd.print("Turn right");
+        lcd.print("Turn right ");
+        lcd.print(abs(angleDiff), 0);
       }
       else{
         lcd.print("Make a step!");
       }
-#endif
+
       lcd.setCursor(0, 1);
       lcd.print("Steps left: ");
       lcd.print(angles.size);
       break;
   }
 }
-
+/**
+ * @brief handles button input based on state
+ * 
+ */
 void handleBtn(){
   switch(STATE){
     case MENU:
