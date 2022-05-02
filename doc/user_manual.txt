@@ -1,0 +1,37 @@
+-------------------
+#ÚVOD
+-------------------
+Vítejte v úžasné navigační aplikaci Ariadnino Arduino!
+V tomto textu se dozvíte, jak aplikaci používat.
+-------------------
+#OVLÁDÁNÍ
+-------------------
+Aplikace se ovládá pomocí dvou tlačítek (dále L a R).
+L se zpravidla používá jako "krokovací" tlačítko.
+R je tlačítko pro přechod mezi jednotlivými stavy.
+---------
+##MENU
+---------
+Při spuštění se nacházíte ve výchozím Menu.
+V Menu se čeká, než se uživatel rozhodne vyjít.
+Pokud chcete začít snímat svou pozici, stiskněte R, tím přejdete do stavu Čtení.
+---------
+##ČTENÍ
+---------
+Ve stavu Čtení dochází ke snímaní polohy uživatele.
+Při každém kroku stiskněte tlačítko L, tím dojde k jeho zaznamenání.
+Pokud jste došli, stiskněte tlačítko R, tím přejdete do stavu Navigace.
+
+Na displeji se zároveň zobrazuje, kolik kroků jste ušli.
+Pokud stisknete R a neušli jste jediný krok, pak jste navráceni do Menu.
+---------
+##NAVIGACE
+---------
+Ve stavu Navigace jste naváděni do místa, ze kterého jste vyšli.
+Podle instrukce na displeji se otočte do správné pozice.
+To, že jste správně natočení poznáte hláškou "Make a step!".
+Potom, co se natočíte podle navigace, udělejte krok jako ve stavu Čtení, tj. stiskněte zároveň L.
+
+Na displeji se zároveň zobrazuje, kolik kroků vám zbývá.
+Jakmile je tento počet roven 0, jste vráceni do Menu.
+Pokud ztratíte s navigací nervy, stiskněte R, čímž přejdete do Menu také.
