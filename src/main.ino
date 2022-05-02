@@ -9,13 +9,15 @@
 #define ANGLE_ERROR 5
 #define END 6
 #define STEP 7
-//#define DEBUG
-
+//timers
 unsigned long lcd_timer = 0;
 unsigned long btn_timer = 0;
+//button variables
 bool end;
 bool step;
+//tmp variable to store angles to
 float angleDiff;
+//stack for main implementation
 Stack angles;
 
 //mpu set-up
@@ -25,6 +27,7 @@ MPU6050 mpu(Wire);
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+//states of application
 enum states {MENU, READ, NAVIGATE};
 enum states STATE = MENU;
 
@@ -50,6 +53,7 @@ void setup() {
   
 
 }
+
 /**
  * @brief check for rising edge on given pin
  * 
@@ -60,6 +64,7 @@ void setup() {
 bool risingEdge(int pin, bool val){
   return !digitalRead(pin) && val == true;
 }
+
 /**
  * @brief trims angle to range (-180, 180>
  * 
@@ -77,6 +82,7 @@ float trimAngle(float angle){
   }
   return angle;
 }
+
 /**
  * @brief makes a step one angle forward, if moving backward, function pops last step from stack
  * 
@@ -98,6 +104,7 @@ void makeStep(float angle){
   angles.push(angle);
 
 }
+
 /**
  * @brief handles writing on lcd based on current state
  * 
@@ -139,6 +146,7 @@ void handleLcd(){
       break;
   }
 }
+
 /**
  * @brief handles button input based on state
  * 
@@ -178,10 +186,12 @@ void handleBtn(){
 void loop() {
   //keep sensor updated for higher precision
   mpu.update();
+  //update lcd every LCD_WAIT ms
   if(millis()-lcd_timer > LCD_WAIT){
     lcd_timer = millis();
     handleLcd();
   }
+  //update buttons every BTN_WAIT ms
   if(millis()-btn_timer > BTN_WAIT){
     btn_timer = millis();
     handleBtn();
