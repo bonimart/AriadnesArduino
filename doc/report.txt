@@ -1,0 +1,20 @@
+Cíle této semestrální práce, tj. navigace uživatele, bylo dosaženo, i když realizace se asi třikrát změnila.
+V dalších odstavcích je popsáno, jak jsem k výsledku došel.
+
+Původní nápad byl implementovat aplikaci na Esploře, na které by se tahala data z akcelerometru.
+To by fungovalo jen za předpokladu, že se Esplora neotáčí.
+Nemožnost se otočit u navigace není úplně žádoucí vlastnost, proto jsem se rozhodl realizovat projekt jinak.
+
+Přikoupil jsem si digitální senzor MPU6050, který obsahuje akcelerometr a gyroskop.
+Z gyroskopu jde získat natočení, takže jsem si myslel, že mám vše potřebné.
+Bohužel při získávání polohy ze zrychlení se musí dvakrát integrovat podle času, čímž vznikne značná nepřesnost.
+Tím pádem i při minimálním otočení vyskočila poloha o desítky metrů.
+Proto jsem se rozhodl problém trochu zjednodušit.
+
+V poslední verzi návrhu jsem vypustil nepřesný akcelerometr úplně.
+Data se berou pouze z gyroskopu, takže známe jen úhel, pod kterým se uživatel nachází.
+Kroky si uživatel musí zaznamenávat sám tím, že při každém kroku stiskne tlačítko.
+Toto řešení je v rámci možností přesné a funguje.
+
+Závěřem, nečekal jsem, že snímání polohy bude tak náročné, a rozhodně bych neřekl, že se budu uchylovat ke kompromisu s gyroskopem.
+Jsem ale rád, že to nějak vyšlo, a cíle, který jsem měl na začátku, se povedlo dosáhnout.
