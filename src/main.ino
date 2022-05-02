@@ -106,7 +106,7 @@ void handleLcd(){
   lcd.clear();
   switch(STATE){
     case MENU:
-      lcd.print("Press left");
+      lcd.print("Press right");
       lcd.setCursor(0, 1);
       lcd.print("button to start!");
       break;
@@ -146,7 +146,7 @@ void handleLcd(){
 void handleBtn(){
   switch(STATE){
     case MENU:
-      if(risingEdge(STEP, step)){
+      if(risingEdge(END, end)){
         STATE = READ;
       }
       break;
